@@ -1,0 +1,50 @@
+@import url("https://fonts.googleapis.com/css2?family=Iansui&display=swap");
+
+* {
+  box-sizing: border-box;
+  align: 0;
+}
+:root {
+  --col-01: #8ee1df;
+  --col-02: #e42121;
+  --col-03: #e1e7f0;
+  --col-04: #aea3dde2;
+  border: sigle solid #f998e9;
+  border: sigle indigo var(--col-01);
+}
+h1 {
+  font-family: "Iansui", cursive;
+  font-size: px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: var(--col-01);
+  color: var(--col-02);
+}
+h2 {
+  font-family: "Iansui", cursive;
+  font-size: 22px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: var(--col-03);
+  color: var(--col-04);
+}
+h3 {
+  font-family: "Iansui", cursive;
+  font-size: px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: var(--col-01);
+  color: var(--col-02);
+}
+h4 {
+  font-family: "Iansui", cursive;
+  font-size: px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: var(--col-03);
+  color: var(--col-04);
+}

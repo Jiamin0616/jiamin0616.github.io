@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Iansui&display=swap");
+
+* {
+  box-sizing: border-box;
+  align: 0;
+}
+:root {
+  --col-01: #f0f0f0;
+  --col-02: #333;
+  --col-03: #abc4e9;
+  --col-04: #000;
+  border: sigle solid #f998e9;
+  border: sigle indigo var(--col-01);
+}
+body {
+  font-family: "Iansui", cursive;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  background-color: var(--col-01);
+  color: var(--col-02);
+}
