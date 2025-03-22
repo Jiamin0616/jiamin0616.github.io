@@ -1,50 +1,69 @@
 @import url("https://fonts.googleapis.com/css2?family=Iansui&display=swap");
+:root {
+  --background: #f9fafb;
+  --primary: #222;
+  --accent: #3dbec7;
+  --light-accent: #def3f5;
+  --section-bg: #ffffff;
+}
 
 * {
   box-sizing: border-box;
-  align: 0;
+  margin: 0;
+  padding: 0;
 }
-:root {
-  --col-01: #8ee1df;
-  --col-02: #e42121;
-  --col-03: #e1e7f0;
-  --col-04: #aea3dde2;
-  border: sigle solid #f998e9;
-  border: sigle indigo var(--col-01);
+
+body {
+  font-family: "Iansui", cursive;
+  background-color: var(--background);
+  color: var(--text);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
+
+main {
+  padding-bottom: 4rem;
+}
+
 h1 {
-  font-family: "Iansui", cursive;
-  font-size: px;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-  background-color: var(--col-01);
-  color: var(--col-02);
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--accent);
 }
-h2 {
-  font-family: "Iansui", cursive;
-  font-size: 22px;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-  background-color: var(--col-03);
-  color: var(--col-04);
-}
+
 h3 {
-  font-family: "Iansui", cursive;
-  font-size: px;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-  background-color: var(--col-01);
-  color: var(--col-02);
+  font-size: 1px;
+  color: #555;
+  margin-bottom: 2rem;
 }
+
+h2 {
+  font-size: 1.2px;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--accent);
+  border-bottom: 2px solid var(--light-accent);
+  padding-bottom: 0.3rem;
+}
+
 h4 {
-  font-family: "Iansui", cursive;
-  font-size: px;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0;
-  background-color: var(--col-03);
-  color: var(--col-04);
+  font-size: 1.05rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  border-left: 3px solid var(--accent);
+}
+
+ul {
+  margin-bottom: 0.5rem 0 1.5rem 1.2rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+h4::before {
+  content: "🟢";
 }
