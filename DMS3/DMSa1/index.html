@@ -95,9 +95,46 @@
      <li>It's more like playing than drawing because it's easy to get started like with children's drawing software.</li>
      <li>Fun and interactive like a digital art tool.</li>
    </ul>
-  
-   <div class="video-section">
-      <h2>My Interaction Experience</h2>
 
+    <h2>watch Demo with sound</h2>
+   <video id="myVideo" controls width="100%">
+    <source src="video.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+    </video>
+
+    <audio id="myAudio">
+      <source src="wigglysound.mp3" type="audio/mpeg"/>
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+   const video = document.getElementById("myVideo");
+   const audio = document.getElementById("myAudio");
+
+   video.addEventListener("play", () => {
+     audio.currentTime = video.currentTime;
+     audio.play();
+    });
+
+    video.addEventListener("pause", () => {
+      audio.pause();
+    });
+
+    video.addEventListener("seeking", () => {
+      audio.currentTime = video.currentTime;
+    });
+
+    video.addEventListener("volumechange", () => {
+      audio.volume = video.volume;
+    });
+
+    video.addEventListener("ended", () => {
+      audio.pause();
+      audio.currentTime = 0;
+    });
+
+    </script>
+    </div>
+    </main>
   </body>
 </html>
