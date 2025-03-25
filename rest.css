@@ -1,0 +1,132 @@
+/* =====================
+rationale for the color scheme and typography:
+i decided to use big shoulder stencil
+beacuse it is a bold and strong font that
+will make the text stand out. 
+====================== */
+
+/* h1 {
+  color: red;
+}
+h2 {
+  color: orange;
+}
+h3 {
+  color: darkcyan;
+}
+
+p {
+  color: blue;
+  font-weight: bold;
+}
+li {
+  color: green;
+} */
+
+.purple-color {
+  color: #8d8cda;
+}
+
+h1 {
+  color: red;
+  font-size: 3rem;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: "Fira Sans", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+h3 {
+  color: lime;
+  font-size: 2rem;
+}
+
+.blue-color {
+  color: blue;
+}
+
+#pink-color {
+  color: pink;
+}
+
+body {
+  background-color: beige;
+  font-size: 1.4rem;
+}
+
+h1 {
+  color: lime;
+}
+
+section {
+  text-align: center;
+  border: 1px solid yellow;
+}
+
+.heading-border {
+  border: 3px dashed green;
+}
+
+/*
+  Curly braces {}
+  Parentheses <>
+  Square brackets []
+  Round brackets()
+  Colon:
+  Semicolon ;
+  /* 
+*   Kevin Powell
+*   https://youtu.be/cCAtD_BAHNw 
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font: inherit; /* Get rid of all font sizes and heights */
+}
+
+html {
+  color-scheme: dark light; /* Default dark */
+  hanging-punctuation: first last; /* Not supported in Chrome */
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Media responsive */
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+p {
+  max-width: 75ch;
+  text-wrap: pretty; /* Prevents orphans on lines */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :has(:target) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 3rem;
+  }
+}
