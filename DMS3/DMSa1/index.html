@@ -95,46 +95,17 @@
      <li>It's more like playing than drawing because it's easy to get started like with children's drawing software.</li>
      <li>Fun and interactive like a digital art tool.</li>
    </ul>
+  
+   <h2>Watch Demo</h2>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+    <iframe
+    src="https://www.youtube.com/embed/hQgTxfnHm9I"
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+    ></iframe>
+  </div>
 
-    <h2>watch Demo with sound</h2>
-   <video id="myVideo" controls width="100%">
-    <source src="video.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-    </video>
-
-    <audio id="myAudio">
-      <source src="wigglysound.mp3" type="audio/mpeg"/>
-      Your browser does not support the audio element.
-    </audio>
-
-    <script>
-   const video = document.getElementById("myVideo");
-   const audio = document.getElementById("myAudio");
-
-   video.addEventListener("play", () => {
-     audio.currentTime = video.currentTime;
-     audio.play();
-    });
-
-    video.addEventListener("pause", () => {
-      audio.pause();
-    });
-
-    video.addEventListener("seeking", () => {
-      audio.currentTime = video.currentTime;
-    });
-
-    video.addEventListener("volumechange", () => {
-      audio.volume = video.volume;
-    });
-
-    video.addEventListener("ended", () => {
-      audio.pause();
-      audio.currentTime = 0;
-    });
-
-    </script>
-    </div>
     </main>
   </body>
 </html>
