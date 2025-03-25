@@ -33,4 +33,11 @@ span {
   display: none;
 }
 
+ul {
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+  padding: 0;
+}
+
 /* ====================== */
