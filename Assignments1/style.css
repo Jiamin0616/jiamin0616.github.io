@@ -1,0 +1,162 @@
+html {
+  height: auto;
+  min-height: 100%;
+}
+
+/* reset & base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "DM Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.8;
+  background: linear-gradient(to margin-bottom, #dff6ff, #c2e4f5, #eaf7ff);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  color: #1a2a33;
+  padding: 3rem 1.5rem;
+  display: flex;
+  justify-content: center;
+  scroll-behavior: smooth;
+}
+
+/* main container */
+.container {
+  max-width: 900px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 3rem;
+  border-radius: 18px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+  animation: fadeIn 1s ease-out;
+}
+
+/* fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* toc nav */
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  justify-content: center;
+  margin: 2rem 0 1rem;
+}
+
+.toc a {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background-color: #134f5c;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.toc a {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background-color: #134f5c;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.toc a:hover {
+  background-color: #176677;
+}
+
+/* typography */
+h1 {
+  font-family: "DM Serif Display", serif;
+  font-size: 2.8rem;
+  text-align: center;
+  color: #134f5c;
+  margin-bottom: 0.3rem;
+}
+
+h3 {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #5c7980;
+  margin-bottom: 2.5rem;
+}
+
+h2 {
+  font-family: "DM Serif Display", serif;
+  font-size: 1.5rem;
+  color: #0a3c46;
+  border-left: 5px solid #134f5c;
+  padding-left: 1rem;
+  margin: 3rem 0 1.5rem;
+}
+
+/* quenstion cards */
+h4 {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  background-color: #134f5c;
+  color: #ffffff;
+  padding: 0.75rem 1.25rem;
+  border-radius: 10px;
+  margin: 2.5rem 0 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* paragraphs and lists */
+ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+ul li {
+  font-size: 1rem;
+  color: #2f4e5a;
+  margin-bottom: 1rem;
+  line-height: 1.75;
+}
+
+strong {
+  font-weight: 600;
+  color: #0a3c46;
+}
+
+/* respnsive */
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1.5rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  h4 {
+    font-size: 1rem;
+  }
+}
