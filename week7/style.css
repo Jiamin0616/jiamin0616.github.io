@@ -1,22 +1,28 @@
+.root {
+  --bg-colour: rgba(144, 144, 173, 0.455);
+  --my-padding: 10px;
+  --my-borders: 24px;
+}
+
 audio {
   display: block;
   margin-bottom: 20px;
 }
 
+video {
+  width: 600px;
+  height: 400px;
+}
+
 button {
-  padding: 20px;
+  padding: var(--my-padding);
   font-size: 1.2rem;
-  border-radius: 12px;
+  border-radius: var(--my-borders);
   margin-right: 10px;
   cursor: pointer;
+  background-color: var(--bg-colour);
 }
 
 button:hover {
   scale: 0.9;
-}
-
-video {
-  width: 600ox;
-  height: 400px;
-  border-radius: 12px;
 }
