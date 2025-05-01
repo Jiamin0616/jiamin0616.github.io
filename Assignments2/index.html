@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Cool Media Player</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- I made the layout simple and easy to use so that people can focus on playing the music.
+    We have not included navigation here to focus on the player. The icons are from Icons8 (https://icons8.com), so that everything has the same look and is licensed correctly.
+    The cover container has only a neutral 'note' placeholder, which makes the DOM simpler and allows the cover to be dynamically loaded when the album cover becomes available.
+    The colour scheme uses black and white (#111/#1e1e1e background; #fff foreground) to follow the best practices for dark user interfaces. This is because it reduces eye strain in low-light environments.
+    Flexbox is used to centre content so that it adapts to different screen sizes. -->
+    <div class="player">
+      <div class="cover-container">
+        <!-- Highlight: Placeholder icon remains consistent across tracks to avoid layout shifts -->
+        <!--Since the music doesn't have album art, I've standardised on placeholder icons from Icons8  -->
+        <img
+          id="cover"
+          src="https://img.icons8.com/?size=100&id=UGJlfvuK8Uf7&format=png&color=c14600"
+          alt="Album Cover"
+        />
+      </div>
+      <!-- Here are the icons for designing different media player styles -->
+      <!-- The six most basic functions -->
+      <div class="info">
+        <div id="title"></div>
+        <div class="controls">
+          <button id="prev">
+            <img
+              src="https://img.icons8.com/?size=100&id=FMsdRt3HG46M&format=png&color=ff9d23"
+              alt="prev"
+            />
+          </button>
+          <button id="play">
+            <img
+              src="https://img.icons8.com/?size=100&id=99cTBfGlewZU&format=png&color=ff9d23"
+              alt="play"
+            />
+          </button>
+          <button id="next">
+            <img
+              src="https://img.icons8.com/?size=100&id=Ceyq0gzv1vA1&format=png&color=ff9d23"
+              alt="next"
+            />
+          </button>
+          <button id="shuffle">
+            <img
+              src="https://img.icons8.com/?size=100&id=oBSkd8DVAmGe&format=png&color=ff9d23"
+              alt="shuffle"
+            />
+          </button>
+          <button id="repeat">
+            <img
+              src="https://img.icons8.com/?size=100&id=Xr9ttscHZsGn&format=png&color=ff9d23"
+              alt="repeat"
+            />
+          </button>
+          <button id="mute">
+            <img
+              src="https://img.icons8.com/?size=100&id=644&format=png&color=ff9d23"
+              alt="mute"
+            />
+          </button>
+        </div>
+        <!-- Here's the progress bar and the volume controller -->
+        <div class="progress-container">
+          <input type="range" id="progress" value="0" min="0" max="100" />
+          <div class="time">
+            <span id="current-time">0:00</span> /
+            <span id="duration">0:00</span>
+          </div>
+        </div>
+        <div class="volume-controls">
+          <button id="vol-down">
+            <img
+              src="https://img.icons8.com/?size=100&id=k92eZBeHVyHX&format=png&color=ff9d23"
+              alt="vol-down"
+            />
+          </button>
+          <button id="vol-up">
+            <img
+              src="https://img.icons8.com/?size=100&id=ygjkWoA6BvKE&format=png&color=ff9d23"
+              alt="vol-up"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+    <ul id="playlist">
+      <li data-src="music/track1.mp3">Song 1</li>
+      <li data-src="music/track2.mp3">Song 2</li>
+      <li data-src="music/track3.mp3">Song 3</li>
+      <li data-src="music/track4.mp3">Song 4</li>
+    </ul>
+    <script src="script.js"></script>
+  </body>
+</html>

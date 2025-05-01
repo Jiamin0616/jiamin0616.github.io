@@ -1,0 +1,107 @@
+/* style decisions*/
+/* I made the layout simple and easy to use so that people can focus on playing the music.
+    We have not included navigation here to focus on the player. The icons are from Icons8 (https://icons8.com), so that everything has the same look and is licensed correctly.
+    The cover container has only a neutral 'note' placeholder, which makes the DOM simpler and allows the cover to be dynamically loaded when the album cover becomes available.
+    The colour scheme uses black and white (#111/#1e1e1e background; #fff foreground) to follow the best practices for dark user interfaces. This is because it reduces eye strain in low-light environments.
+    Flexbox is used to centre content so that it adapts to different screen sizes. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background: #111;
+  color: #fff;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+}
+.player {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+  width: 320px;
+}
+.cover-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.cover-container img {
+  width: 120px;
+  height: 120px;
+}
+.info #title {
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 1.1em;
+}
+
+/* controls feedback  */
+.controls,
+.volume-controls {
+  display: flex;
+  justify-content: space-around;
+  margin: 8px 0;
+}
+/* clear default button styles */
+.controls button,
+.volume-controls button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  /* touch target ≥ 48px accessibility  */
+}
+
+/* icon sizing and transition */
+.controls button img,
+.volume-controls button img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.1s ease-in-out;
+  filter: 0, 1s ease-in-out;
+  /* transition for hover effect */
+}
+
+/* Interactive feedback
+- Hover: Reduce the scale (to 0.9) to show the feeling of pressing the button.
+Hold it down to brighten it, then release it to darken it. */
+.controls button:hover img,
+.volume-controls button:hover img {
+  transform: scale(0.9);
+}
+.controls button:active img,
+.volume-controls button:active img {
+  filter: scale(1.5);
+}
+
+.progress-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 8px 0;
+}
+#progress {
+  width: 100%;
+}
+.time {
+  font-size: 0.8em;
+  margin: 4px 0;
+}
+#playlist {
+  list-style: none;
+  margin-top: 24px;
+  width: 320px;
+}
+#playlist li {
+  padding: 8px 12px;
+  border-bottom: 1px solid #333;
+  cursor: pointer;
+}
+#playlist li:hover {
+  background: #333;
+}
