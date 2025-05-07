@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PixelPlay Creative Station Prototype</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <input type="file" id="fileInput" accept="image/*" />
+      <label>
+        pixel size:
+        <input type="range" id="pixelSize" value="12" min="2" max="50" />
+      </label>
+      <label>
+        colors:
+        <input type="number" id="colorCount" value="8" min="2" max="16" />
+      </label>
+      <button id="exportBtn">Export PNG</button>
+    </div>
+    <canvas id="canvas" width="300" height="300"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+    <script src="script.js" defer></script>
+    <h4>More suitable for scenery</h4>
+  </body>
+</html>

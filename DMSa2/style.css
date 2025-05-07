@@ -1,0 +1,37 @@
+/* basic page setup */
+body {
+  background: #ddffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: sans-serif;
+  padding: 1rem;
+}
+
+/* center and space the controls */
+#controls {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* make the canvas reposive
+- width at most 80% of viewport
+- never larger than its natural 500px width
+- height auto to keep aspect ratio
+- pixelated redering, centered */
+
+canvas {
+  width: 80vw;
+  max-width: 500px;
+  height: auto;
+  image-rendering: pixelated;
+  border: 1px solid #ccc;
+  display: block;
+  margin: 0 auto;
+}
+
+input,
+button,
+label {
+  margin: 0 0.5rem 0.5rem 0;
+}
