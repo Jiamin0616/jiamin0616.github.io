@@ -17,11 +17,22 @@
         colors:
         <input type="number" id="colorCount" value="8" min="2" max="16" />
       </label>
+      <!-- New filter dropdown menu -->
+      <label>
+        filter:
+        <select id="filterSelect">
+          <option value="none">None</option>
+          <option value="pastel">Dreamy Pastel</option>
+          <option value="neon">Cyber Neon</option>
+          <option value="vhs">VHS Glitch</option>
+          <option value="duotone">Duotone</option>
+          <option value="bloom">Pixel Bloom</option>
+        </select>
+      </label>
       <button id="exportBtn">Export PNG</button>
     </div>
     <canvas id="canvas" width="300" height="300"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
     <script src="script.js" defer></script>
-    <h4>More suitable for scenery</h4>
   </body>
 </html>
