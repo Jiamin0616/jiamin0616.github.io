@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (selectedSticker) {
       const st = selectedSticker;
-      const size = 15;
+      const size = 35;
       const half = size / 2;
       const corners = {
         nw: [st.x, st.y],
@@ -115,8 +115,10 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    const all = ["pastel", "neon", "vhs", "duotone", "bloom"];
+    canvas.classList.remove(...all);
+
     const v = filterSelect.value;
-    canvas.classList.remove("pastel", "neon", "vhs");
     if (v !== "none") canvas.classList.add(v);
   }
 
