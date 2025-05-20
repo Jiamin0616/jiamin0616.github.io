@@ -6,68 +6,70 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterSelect = document.getElementById("filterSelect");
   const exportBtn = document.getElementById("exportBtn");
   const canvas = document.getElementById("canvas");
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d", { willReadFrequently: true });
+  const btnFilter = document.getElementById("btnFilter");
+  const btnSticker = document.getElementById("btnSticker");
+  const panelFilter = document.getElementById("panelFilter");
+  const panelSticker = document.getElementById("panelSticker");
+  const staticContainer = document.getElementById("staticStickers");
+  const menu = document.getElementById("contextMenu");
+  const miDelete = document.getElementById("ctxDelete");
+  const miFlipH = document.getElementById("ctxFlipH");
+  const miFlipV = document.getElementById("ctxFlipV");
+
+  let baseImage = null;
+  // hold the uploaded image
+  let palette = [];
+  const stickers = [];
+  let selectedSticker = null;
+  let resizeHandle = null;
+  let dragOffsetX = 0,
+    dragOffsetY = 0;
+  let resizeStartX = 0,
+    resizeStartY = 0;
+  let resizeStartW = 0,
+    resizeStartH = 0;
+  let dragging = null;
+
+  let ctxTarget = null;
 
   const colorThief = new ColorThief();
+
+  // ---------------
+  btnFilter.addEventListener("click", () => {
+    panelFilter.classList.toggle("open");
+    panelSticker.classList.remove("open");
+  });
+  btnSticker.addEventListener("click", () => {
+    panelSticker.classList.toggle("open");
+    panelFilter.classList.remove("open");
+  });
 
   // const ctx = canvas.getContext("2d", { willReadFrequently: true });
   // get the canvas context with willReadFrequently option
   // console.log({fileInput,pixelSizeInput,colorCountInput,exportBtn,canvas,ctx});
   // initialize Color Thief for palette extraction
-
-  let image = null;
-  // hold the uploaded image
-  let palette = [];
-
-  fileInput.addEventListener("change", (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      image = new Image();
-      image.crossOrigin = "Anonymous";
-      image.onload = () => {
-        canvas.width = image.width;
-        canvas.height = image.height;
-        // extract palette
-        const count = +colorCountInput.value;
-        palette = colorThief.getPalette(image, +colorCountInput.value);
-
-        processImage();
-      };
-      image.src = evt.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  pixelSizeInput.addEventListener("input", processImage);
-  colorCountInput.addEventListener("input", () => {
-    if (!image) return;
-    palette = colorThief.getPalette(image, +colorCountInput.value);
-    processImage();
-  });
-  // add event listener for filter select
-  if (filterSelect) {
-    filterSelect.addEventListener("change", processImage); // newly added
-  }
-
-  function processImage() {
-    if (!image) return;
+  // -------------------
+  function drawBase() {
+    if (!baseImage) return;
     const size = +pixelSizeInput.value;
-    const width = canvas.width;
-    const height = canvas.height;
+    const width = canvas.width,
+      height = canvas.height;
+    const smallW = Math.floor(width / size);
+    const smallH = Math.floor(height / size);
 
     ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(image, 0, 0, width / size, height / size);
+    ctx.drawImage(baseImage, 0, 0, smallW, smallH);
 
-    const imageData = ctx.getImageData(0, 0, width / size, height / size);
+    const imageData = ctx.getImageData(0, 0, smallW, smallH);
     const data = imageData.data;
     for (let i = 0; i < data.length; i += 4) {
+      let bestIdx = 0;
+      let bestDist = Infinity;
       const r = data[i];
       const g = data[i + 1];
       const b = data[i + 2];
-      let bestIdx = 0;
-      let bestDist = Infinity;
+
       palette.forEach((color, j) => {
         const dr = r - color[0];
         const dg = g - color[1];
@@ -82,71 +84,272 @@ document.addEventListener("DOMContentLoaded", () => {
       data[i + 1] = palette[bestIdx][1];
       data[i + 2] = palette[bestIdx][2];
     }
-    ctx.putImageData(imageData, 0, 0);
-    // upscale without smoothing
+    const newImageData = new ImageData(data, smallW, smallH);
+    ctx.putImageData(newImageData, 0, 0);
+
     ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(
-      canvas,
-      0,
-      0,
-      width / size,
-      height / size,
-      0,
-      0,
-      width,
-      height
-    );
-    // apply filter
-    applyCanvasFilter(width, height);
+    ctx.drawImage(canvas, 0, 0, smallW, smallH, 0, 0, width, height);
   }
-  function applyCanvasFilter(width, height) {
-    const val = filterSelect ? filterSelect.value : "none";
+
+  function render() {
+    drawBase();
+    stickers.forEach((st) => {
+      ctx.drawImage(st.img, st.x, st.y, st.width, st.height);
+    });
+
+    if (selectedSticker) {
+      const st = selectedSticker;
+      const size = 10;
+      const half = size / 2;
+      const corners = {
+        nw: [st.x, st.y],
+        ne: [st.x + st.width, st.y],
+        sw: [st.x, st.y + st.height],
+        se: [st.x + st.width, st.y + st.height],
+      };
+      ctx.fillStyle = "#ff69b4";
+      ctx.strokeStyle = "#ff1493";
+      for (const [cx, cy] of Object.values(corners)) {
+        ctx.fillRect(cx - half, cy - half, size, size);
+        ctx.strokeRect(cx - half, cy - half, size, size);
+      }
+    }
+
+    const v = filterSelect.value;
     canvas.classList.remove("pastel", "neon", "vhs");
-    ctx.filter = "none";
-    ctx.globalAlpha = 1;
+    if (v !== "none") canvas.classList.add(v);
+  }
 
-    // Define val based on filterSelect value
+  function animate() {
+    render();
+    requestAnimationFrame(animate);
+  }
 
-    if (["pastel", "neon", "vhs"].includes(val)) {
-      canvas.classList.add(val);
-    } else if (val === "duotone") {
-      let imageData = ctx.getImageData(0, 0, width, height);
-      imageData = applyDuotone(imageData, [255, 180, 200], [100, 50, 150]); // red to blue
-      ctx.putImageData(imageData, 0, 0);
-    } else if (val === "bloom") {
-      applyPixelBloom(width, height);
+  // ----------------------
+  fileInput.addEventListener("change", (e) => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      baseImage = new Image();
+      baseImage.crossOrigin = "Anonymous";
+      baseImage.onload = () => {
+        canvas.width = baseImage.width;
+        canvas.height = baseImage.height;
+        palette = colorThief.getPalette(baseImage, +colorCountInput.value);
+        animate();
+      };
+      baseImage.src = evt.target.result;
+    };
+    reader.readAsDataURL(f);
+  });
+
+  pixelSizeInput.addEventListener("input", () => {
+    if (baseImage)
+      palette = colorThief.getPalette(baseImage, +colorCountInput.value);
+  });
+  colorCountInput.addEventListener("input", () => {
+    if (baseImage)
+      palette = colorThief.getPalette(baseImage, +colorCountInput.value);
+  });
+
+  // ---------------------
+  const STATIC_STICKERS = [
+    "https://media.tenor.com/9KFWbDIvHCEAAAAi/sparkles-glitter.gif",
+    "https://media1.tenor.com/m/mQlY2IcF38AAAAAd/y2k-ipod.gif",
+    "https://media.tenor.com/uvUDW5Rk25gAAAAj/star.gif",
+    "https://media.tenor.com/STjsyZzENwsAAAAj/y2k.gif",
+    "https://media.tenor.com/saOybZUSPlQAAAAj/spin-haunter.gif",
+  ];
+
+  STATIC_STICKERS.forEach((url) => {
+    const thumb = document.createElement("img");
+    thumb.src = url;
+    thumb.title = "click to add sticker";
+    thumb.addEventListener("click", () => addSticker(url));
+    staticContainer.appendChild(thumb);
+  });
+
+  function addSticker(url) {
+    const img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = () => {
+      const scale = 0.4;
+      const width = img.width * scale;
+      const height = img.height * scale;
+      stickers.push({
+        img,
+        x: (canvas.width - width) / 2,
+        y: (canvas.height - height) / 2,
+        width: width,
+        height: height,
+      });
+    };
+    img.src = url;
+  }
+
+  // ------------------------
+
+  // let resizeStartX = 0,
+  //     resizeStartY = 0,
+  //     resizeStartW = 0,
+  //     resizeStartH = 0;
+
+  canvas.addEventListener("mousedown", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = cx * scaleX;
+    const y = cy * scaleY;
+
+    if (selectedSticker) {
+      const st = selectedSticker;
+      const size = 8,
+        half = size / 2;
+      const corners = {
+        nw: [st.x, st.y],
+        ne: [st.x + st.width, st.y],
+        sw: [st.x, st.y + st.height],
+        se: [st.x + st.width, st.y + st.height],
+      };
+      for (const [key, [cx0, cy0]] of Object.entries(corners)) {
+        if (
+          x >= cx0 - half &&
+          x <= cx0 + half &&
+          y >= cy0 - half &&
+          y <= cy0 + half
+        ) {
+          resizeHandle = key;
+          resizeStartX = x;
+          resizeStartY = y;
+          resizeStartW = st.width;
+          resizeStartH = st.height;
+          return;
+        }
+      }
     }
-  }
 
-  function applyDuotone(imageData, colorA, colorB) {
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
-      const t = gray / 255;
-      data[i] = colorA[0] + (colorB[0] - colorA[0]) * t;
-      data[i + 1] = colorA[1] + (colorB[1] - colorA[1]) * t;
-      data[i + 2] = colorA[2] + (colorB[2] - colorA[2]) * t;
+    for (let i = stickers.length - 1; i >= 0; i--) {
+      const sticker = stickers[i];
+      if (
+        x >= sticker.x &&
+        x <= sticker.x + sticker.width &&
+        y >= sticker.y &&
+        y <= sticker.y + sticker.height
+      ) {
+        selectedSticker = sticker;
+        dragging = sticker;
+        dragOffsetX = x - sticker.x;
+        dragOffsetY = y - sticker.y;
+        return;
+      }
     }
-    return imageData;
-  }
 
-  function applyPixelBloom(width, height) {
-    const tmp = document.createElement("canvas");
-    tmp.width = width;
-    tmp.height = height;
-    const tmpCtx = tmp.getContext("2d");
-    tmpCtx.drawImage(canvas, 0, 0);
-    ctx.save();
-    ctx.filter = "blur(2px)";
-    ctx.globalAlpha = 0.3;
-    ctx.drawImage(tmp, 0, 0);
-    ctx.restore();
-  }
+    selectedSticker = null;
+  });
+
+  canvas.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    const x = cx * scaleX;
+    const y = cy * scaleY;
+
+    if (resizeHandle && selectedSticker) {
+      const st = selectedSticker;
+      const dx = x - resizeStartX;
+      const dy = y - resizeStartY;
+      switch (resizeHandle) {
+        case "se":
+          st.width = Math.max(10, resizeStartW + dx);
+          st.height = Math.max(10, resizeStartH + dy);
+          break;
+        case "nw":
+          st.x += dx;
+          st.y += dy;
+          st.width = Math.max(10, resizeStartW - dx);
+          st.height = Math.max(10, resizeStartH - dy);
+          break;
+        case "ne":
+          st.y += dy;
+          st.width = Math.max(10, resizeStartW + dx);
+          st.height = Math.max(10, resizeStartH - dy);
+          break;
+        case "sw":
+          st.x += dx;
+          st.width = Math.max(10, resizeStartW - dx);
+          st.height = Math.max(10, resizeStartH + dy);
+          break;
+      }
+    } else if (dragging) {
+      dragging.x = x - dragOffsetX;
+      dragging.y = y - dragOffsetY;
+    }
+  });
+
+  ["mouseup", "mouseleave"].forEach((event) =>
+    canvas.addEventListener(event, () => {
+      dragging = null;
+      resizeHandle = null;
+    })
+  );
+
+  // -------------------
+  canvas.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    const r = canvas.getBoundingClientRect();
+    const mx = e.clientX - r.left,
+      my = e.clientY - r.top;
+    let idx = -1;
+    for (let i = stickers.length - 1; i >= 0; i--) {
+      const st = stickers[i];
+      if (
+        mx >= st.x &&
+        mx <= st.x + st.width &&
+        my >= st.y &&
+        my <= st.y + st.height
+      ) {
+        idx = i;
+        break;
+      }
+    }
+    if (idx >= 0) {
+      ctxTarget = { st: stickers[idx], idx };
+      menu.style.top = `${e.clientY}px`;
+      menu.style.left = `${e.clientX}px`;
+      menu.style.display = "block";
+    }
+  });
+  window.addEventListener("click", () => (menu.style.display = "none"));
+
+  miDelete.addEventListener("click", () => {
+    if (ctxTarget) {
+      stickers.splice(ctxTarget.idx, 1);
+      ctxTarget = null;
+      menu.style.display = "none";
+    }
+  });
+  miFlipH.addEventListener("click", () => {
+    if (ctxTarget) {
+      ctxTarget.st.width *= -1;
+      menu.style.display = "none";
+    }
+  });
+  miFlipV.addEventListener("click", () => {
+    if (ctxTarget) {
+      ctxTarget.st.height *= -1;
+      menu.style.display = "none";
+    }
+  });
 
   exportBtn.addEventListener("click", () => {
-    const link = document.createElement("a");
-    link.download = "pixel-art.png";
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+    const a = document.createElement("a");
+    a.download = "pixel-art.png";
+    a.href = canvas.toDataURL("image/png");
+    a.click();
   });
 });

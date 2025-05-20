@@ -1,33 +1,101 @@
 /* basic page setup */
 body {
-  background: #ddffff;
+  margin: 0;
+  padding: 1rem;
+  background: #f6e6ff;
+  font-family: "Press start 2p", monospace;
+  color: #333;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: sans-serif;
-  padding: 1rem;
 }
 
-/* center and space the controls */
-#controls {
+#toolbar {
+  display: flex;
+  gap: 0.75rem;
   margin-bottom: 1rem;
+}
+#toolbar button {
+  background: #ffd4e8;
+  border: 2px solid #ffa3c9;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#toolbar button:hover {
+  background: #ffe0f0;
+}
+
+.panel {
+  width: 90vw;
+  max-width: 500px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  background: #ffffffcc;
+  border: 2px solid #ffa3c9;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.panel.open {
+  max-height: 400px;
+}
+.panel:not(.open) {
+  max-height: 0;
+}
+.panel h3 {
+  margin: 0.5rem 0;
   text-align: center;
 }
 
-/* make the canvas reposive
+#filterControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+#filterControls input,
+#filterControls select {
+  margin-left: 0.25rem;
+}
+
+#staticStickers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: 0.5rem;
+}
+#staticStickers img {
+  width: 64px;
+  margin: 2px solid #f0c0ff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s;
+}
+#staticStickers img:hover {
+  transform: scale(1.1);
+  border-color: #ffa3c9;
+}
+
+main {
+  text-align: center;
+}
+
+/* center and space the controls */
+/* make the canvas responsive
 - width at most 80% of viewport
 - never larger than its natural 500px width
 - height auto to keep aspect ratio
-- pixelated redering, centered */
-
+- pixelated rendering, centered */
 canvas {
   width: 80vw;
   max-width: 500px;
   height: auto;
+  background: #fff;
   image-rendering: pixelated;
-  border: 1px solid #ccc;
-  display: block;
-  margin: 0 auto;
+  border: 3px solid #ffa3c9;
+  margin-bottom: 0.5 rem;
 }
 
 /* Add styles or remove this ruleset */
@@ -41,9 +109,54 @@ canvas.vhs {
   filter: grayscale(0.5) contrast(1.6) brightness(1.2);
 }
 
+#exportButton {
+  background: #ffd4e8;
+  border: 2px solid #ffa3c9;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.context-menu {
+  position: absolute;
+  list-style: none;
+  padding: 0.25rem 0;
+  margin: 0;
+  background: #ffffffdd;
+  border: 2px solid #ffa3c9;
+  border-radius: 4px;
+  display: none;
+  z-index: 1000;
+}
+.context-menu li {
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.context-menu li:hover {
+  background-color: #ffe0f0;
+}
+
 /* spacing between inputs */
 input,
 button,
 label {
-  margin: 0 0.5rem 0.5rem 0;
+  font-family: inherit;
+  font-size: 0.8rem;
+}
+
+.export-container {
+  text-align: center;
+  margin-top: 1 rem;
+}
+.export-container button {
+  display: inline-block;
+}
+
+.disclaimer {
+  font-size: 0.75rem;
+  text-align: center;
+  color: #666;
+  margin-top: 2rem;
+  padding: 0 1rem;
 }

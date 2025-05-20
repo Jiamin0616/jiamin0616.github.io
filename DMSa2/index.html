@@ -3,36 +3,72 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PixelPlay Creative Station Prototype</title>
+    <title>PixelPlay Ceative Station Prototype</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div id="controls">
-      <input type="file" id="fileInput" accept="image/*" />
-      <label>
-        pixel size:
-        <input type="range" id="pixelSize" value="12" min="2" max="50" />
-      </label>
-      <label>
-        colors:
-        <input type="number" id="colorCount" value="8" min="2" max="16" />
-      </label>
-      <!-- New filter dropdown menu -->
-      <label>
-        filter:
-        <select id="filterSelect">
-          <option value="none">None</option>
-          <option value="pastel">Dreamy Pastel</option>
-          <option value="neon">Cyber Neon</option>
-          <option value="vhs">VHS Glitch</option>
-          <option value="duotone">Duotone</option>
-          <option value="bloom">Pixel Bloom</option>
-        </select>
-      </label>
-      <button id="exportBtn">Export PNG</button>
-    </div>
-    <canvas id="canvas" width="300" height="300"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"></script>
+    <header id="toolbar">
+      <button id="btnFilter">Filters</button>
+      <button id="btnSticker">Stickers</button>
+    </header>
+
+    <section id="panelFilter" class="panel open">
+      <div id="filterControls">
+        <input type="file" id="fileInput" accept="image/*" />
+        <label>
+          pixel size:
+          <input type="range" id="pixelSize" value="12" min="2" max="50" />
+        </label>
+        <label>
+          colors:
+          <input type="number" id="colorCount" value="8" min="2" max="16" />
+        </label>
+        <label>
+          filter:
+          <select id="filterSelect">
+            <option value="none">None</option>
+            <option value="pastel">Dreamy Pastel</option>
+            <option value="neon">Cyber Neon</option>
+            <option value="vhs">VHS Glitch</option>
+            <option value="duotone">Duotone</option>
+            <option value="bloom">Pixel Bloom</option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section id="panelSticker" class="panel">
+      <div id="stickerPanel">
+        <h3>Your Stickers</h3>
+        <div id="staticStickers"></div>
+      </div>
+    </section>
+
+    <main>
+      <canvas id="canvas" width="300" height="300"></canvas>
+      <div class="export-container">
+        <button id="exportBtn">Export PNG</button>
+      </div>
+    </main>
+
+    <ul id="contextMenu" class="context-menu">
+      <li id="ctxDelete">Delete 🗑️</li>
+      <li id="ctxFlipH">Flip H</li>
+      <li id="ctxFlipV">Flip V</li>
+    </ul>
+
+    <footer class="disclaimer">
+      <p>
+        This system uses Tenor's Media CDN links for academic and technical
+        demonstration purposes only, in accordance with Tenor’s fair use policy
+        and developer agreement.
+      </p>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/color-thief/2.3.2/color-thief.umd.js"
+      defer
+    ></script>
     <script src="script.js" defer></script>
   </body>
 </html>
