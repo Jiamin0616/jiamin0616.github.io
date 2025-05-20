@@ -93,13 +93,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function render() {
     drawBase();
-    stickers.forEach((st) => {
-      ctx.drawImage(st.img, st.x, st.y, st.width, st.height);
-    });
+    stickers.forEach((sticker) => drawSticker(sticker));
 
     if (selectedSticker) {
       const st = selectedSticker;
-      const size = 10;
+      const size = 15;
       const half = size / 2;
       const corners = {
         nw: [st.x, st.y],
@@ -154,13 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ---------------------
-  const STATIC_STICKERS = [
-    "https://media.tenor.com/9KFWbDIvHCEAAAAi/sparkles-glitter.gif",
-    "https://media1.tenor.com/m/mQlY2IcF38AAAAAd/y2k-ipod.gif",
-    "https://media.tenor.com/uvUDW5Rk25gAAAAj/star.gif",
-    "https://media.tenor.com/STjsyZzENwsAAAAj/y2k.gif",
-    "https://media.tenor.com/saOybZUSPlQAAAAj/spin-haunter.gif",
-  ];
+  const STATIC_STICKERS = ["stickers/1.png"];
 
   STATIC_STICKERS.forEach((url) => {
     const thumb = document.createElement("img");
@@ -183,6 +175,8 @@ document.addEventListener("DOMContentLoaded", () => {
         y: (canvas.height - height) / 2,
         width: width,
         height: height,
+        flipH: false,
+        flipV: false,
       });
     };
     img.src = url;
@@ -335,17 +329,33 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   miFlipH.addEventListener("click", () => {
     if (ctxTarget) {
-      ctxTarget.st.width *= -1;
+      ctxTarget.st.flipH = !ctxTarget.st.flipH;
       menu.style.display = "none";
     }
   });
   miFlipV.addEventListener("click", () => {
     if (ctxTarget) {
-      ctxTarget.st.height *= -1;
+      ctxTarget.st.flipV = !ctxTarget.st.flipV;
       menu.style.display = "none";
     }
   });
 
+  function drawSticker(sticker) {
+    ctx.save();
+    ctx.translate(
+      sticker.x + sticker.width / 2,
+      sticker.y + sticker.height / 2
+    );
+    ctx.scale(sticker.flipH ? -1 : 1, sticker.flipV ? -1 : 1);
+    ctx.drawImage(
+      sticker.img,
+      -sticker.width / 2,
+      -sticker.height / 2,
+      sticker.width,
+      sticker.height
+    );
+    ctx.restore();
+  }
   exportBtn.addEventListener("click", () => {
     const a = document.createElement("a");
     a.download = "pixel-art.png";

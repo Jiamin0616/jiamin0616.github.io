@@ -16,14 +16,53 @@ body {
   margin-bottom: 1rem;
 }
 #toolbar button {
-  background: #ffd4e8;
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  background: linear-gradient(145deg, #ff7096, #ff3366);
   border: 2px solid #ffa3c9;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   padding: 0.5rem 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 #toolbar button:hover {
-  background: #ffe0f0;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+  background: #51dcd0;
+}
+#toolbar button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(0);
+}
+#toolbar ::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 150%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  /* rgba(145deg, #70ffdb, #ff3366)0%, */
+  transform: rotate(25deg) translateX(-100%);
+  pointer-events: none;
+}
+#toolbar button:hover::before {
+  animation: shine 1s forwards;
+}
+@keyframes shine {
+  to {
+    transform: rotate(25deg) translateX(100%);
+  }
 }
 
 .panel {
@@ -126,7 +165,7 @@ canvas.vhs {
   border: 2px solid #ffa3c9;
   border-radius: 4px;
   display: none;
-  z-index: 1000;
+  z-index: 10000;
 }
 .context-menu li {
   padding: 0.5rem 1rem;
@@ -151,6 +190,54 @@ label {
 }
 .export-container button {
   display: inline-block;
+  position: relative;
+  display: inline-block;
+  color: #fff;
+  background: linear-gradient(145deg, #75efdb, #ff3366);
+  border: 2px solid #ffa3c9;
+  border-radius: 4px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s ease;
+}
+
+.export-container button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.export-container button:active {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(0);
+}
+
+.export-container button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 150%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0) 60%
+  );
+  transform: rotate(25deg) translateX(-100%);
+  pointer-events: none;
+}
+.export-container button:hover::before {
+  animation: shine 1s forwards;
+}
+@keyframes shine {
+  to {
+    transform: rotate(25deg) translateX(100%);
+  }
 }
 
 .disclaimer {
