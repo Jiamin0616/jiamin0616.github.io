@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const miDelete = document.getElementById("ctxDelete");
   const miFlipH = document.getElementById("ctxFlipH");
   const miFlipV = document.getElementById("ctxFlipV");
+  const bgm = document.getElementById("bgm");
+  const btnMusic = document.getElementById("btnMusic");
 
   let baseImage = null;
   // hold the uploaded image
@@ -161,17 +163,17 @@ document.addEventListener("DOMContentLoaded", () => {
     "stickers/6.png",
     "stickers/7.png",
     "stickers/8.png",
-    "stickers/9.png",
+    "stickers/9.PNG",
     "stickers/10.png",
     "stickers/11.png",
-    "stickers/12.png",
+    "stickers/12.PNG",
     "stickers/13.png",
     "stickers/14.png",
-    "stickers/15.png",
+    "stickers/15.PNG",
     "stickers/16.png",
-    "stickers/17.png",
+    "stickers/17.PNG",
     "stickers/18.png",
-    "stickers/19.png",
+    "stickers/19.PNG",
     "stickers/20.png",
     "stickers/21.png",
     "stickers/22.png",
@@ -385,5 +387,15 @@ document.addEventListener("DOMContentLoaded", () => {
     a.download = "pixel-art.png";
     a.href = canvas.toDataURL("image/png");
     a.click();
+  });
+
+  btnMusic.addEventListener("click", () => {
+    if (bgm.paused) {
+      bgm.play();
+      btnMusic.innerText = "Pause Music";
+    } else {
+      bgm.pause();
+      btnMusic.innerText = "Play Music";
+    }
   });
 });
