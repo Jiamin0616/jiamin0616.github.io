@@ -152,7 +152,31 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ---------------------
-  const STATIC_STICKERS = ["stickers/1.png"];
+  const STATIC_STICKERS = [
+    "stickers/1.png",
+    "stickers/2.png",
+    "stickers/3.png",
+    "stickers/4.png",
+    "stickers/5.png",
+    "stickers/6.png",
+    "stickers/7.png",
+    "stickers/8.png",
+    "stickers/9.png",
+    "stickers/10.png",
+    "stickers/11.png",
+    "stickers/12.png",
+    "stickers/13.png",
+    "stickers/14.png",
+    "stickers/15.png",
+    "stickers/16.png",
+    "stickers/17.png",
+    "stickers/18.png",
+    "stickers/19.png",
+    "stickers/20.png",
+    "stickers/21.png",
+    "stickers/22.png",
+    "stickers/23.png",
+  ];
 
   STATIC_STICKERS.forEach((url) => {
     const thumb = document.createElement("img");
