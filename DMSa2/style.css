@@ -171,7 +171,7 @@ canvas.bloom {
   border: 2px solid #ffa3c9;
   border-radius: 4px;
   display: none;
-  z-index: 10000;
+  z-index: 1000;
 }
 .context-menu li {
   padding: 0.5rem 1rem;
