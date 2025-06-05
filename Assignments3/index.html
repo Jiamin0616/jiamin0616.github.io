@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mini Collage Lab</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- The website divides the screen into two parts:
+1. Asset Panel (left) - The user selects the assets to drag
+2. Canvas packaging (right) - Canvas collage in notebook style -->
+    <div id="container">
+      <!-- left asset panel -->
+      <div id="asset-panel">
+        <!-- panel header -->
+        <div id="header">Mini Collage Lab</div>
+        <!-- Tab bar for switching asset categories -->
+        <div id="tab-bar">
+          <div class="tab active" data-tab="fonts">Font Assets</div>
+          <div class="tab" data-tab="decor">Decor Assets</div>
+          <div class="tab" data-tab="images">Image Assets</div>
+        </div>
+        <!-- thumbnail conatainer (two-colum grid) -->
+        <div id="thumb-container"></div>
+
+        <!-- bottom upload section -->
+        <div id="upload-section">
+          <label id="upload-label" for="upload-input">Upload Asset (PNG)</label>
+          <input type="file" id="upload-input" accept="image/*" />
+        </div>
+      </div>
+
+      <!-- Right notebook-style canvas area -->
+      <div id="canvas-wrapper">
+        <!-- canvas inner container -->
+        <div id="canvas"></div>
+        <!-- Top-left controls: upload photo, undo, reset, export -->
+        <div id="canvas-controls">
+          <label for="file-canvas">Upload Photo</label>
+          <input type="file" id="file-canvas" accept="image/*" />
+
+          <button id="undo-btn" disabled>Undo</button>
+          <button id="reset-btn">Reset</button>
+          <button id="export-btn">Export</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

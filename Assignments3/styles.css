@@ -1,0 +1,314 @@
+/* Background and Design Choices:
+I simulated a "notebook" interface, in which the right panel is a line page, reminiscent of a sketchbook on paper. The toolbar adopts the simplest layout design. Make sure users focus on collage creation and there are no messy UI elements.
+For the color palette, I chose a soft one (light lotus, cream, light lavender) to evoke a "fresh and clean" aesthetic. My draft design has been restored here.
+Soft background colors can make the user's image stand out.
+The left panel uses a light cream color (#FEFDE3) as the background.
+The blue-green highlight of the label (#6CD4DB) makes it not look too boring.
+The buttons and labels use a semi-transparent background (rgba(255,255,255,0.5)).
+When combined with equal-width fonts, it creates a pixelated "retro UI" atmosphere.
+Monospace (' Courier New ') is used worldwide to evoke pixelation.
+Low-fidelity artistic sense, reinforcing the spirit of "DIY collage". */
+
+/* General Styles *
+- Flexbox for layout:
+- #container uses' display: flex; ' Create two columns.
+- # thumbcontainer uses' display: flex; flex-wrap: Packaging Gap :8 px
+Arrange the thumbnails in two columns. My aim is to make the picture more regular.
+* reference: MDN flex guide (https://developer.mozilla.org/docs/Web/CSS/CSS_Flexible_Box_Layout)
+Use Flexbox to ensure response size adjustment and consistent cross-browser alignment.
+The style of the controls (rotate, zoom, delete) is a Unicode small circle
+Widely supported and immediately understandable ICONS (" <s:1> <s:1>.exe ", "↔", "7").
+Here I consulted chat gpt on how to create operation handles that are well-known to the public and easy to operate like figma or canva. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: #e3f8f9; /* Light lotus */
+  font-family: "Courier New", Courier, monospace; /* Monospace font for pixelated effect */
+}
+body {
+  -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+}
+
+/* container layout */
+
+#container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* left asset panel */
+#asset-panel {
+  width: 248px; /* Fixed width for the asset panel */
+  height: 100vh;
+  background: #fffacd; /* Light cream */
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #d8e3e7; /* Subtle border for separation */
+  padding: 0;
+}
+
+#header {
+  width: 100%;
+  background: #6cd4db; /* Blue-green highlight */
+  padding: 14px 0;
+  text-align: center;
+  font-size: 1.3rem;
+  color: #fff;
+  border-bottom: 1px solid #58c0c9; /* Subtle border for separation */
+}
+
+#tab-bar {
+  display: flex;
+  background: #f5e9f2; /* Light lavender */
+  border-bottom: 1px solid #d8e3e7; /* Subtle border for separation */
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 10px 0;
+  font-size: 1rem;
+  color: #444;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.tab:not(.active):hover {
+  background: #ede3f6; /* Light lavender hover effect */
+}
+
+.tab.active {
+  background: #fff; /* Active tab highlight */
+  border-bottom: 3px solid #6cd4db; /* Blue-green underline */
+  font-weight: bold;
+  color: #333; /* Darker text for active tab */
+}
+
+/* thumbnail container */
+#thumb-container {
+  flex: 1;
+  padding: 6px 0 6px 0; /* Padding around the thumbnails */
+  background: #fffacd; /* Light cream */
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: 120px 120px; /* Two columns of equal width */
+  grid-auto-rows: 120px; /* Fixed height for each thumbnail */
+  column-gap: 8px; /* Space between columns */
+  row-gap: 8px; /* Space between rows */
+}
+
+#thumb-container > img.thumb {
+  width: 120px; /* Full width of the grid cell */
+  height: 120px; /* Full height of the grid cell */
+  object-fit: contain; /* Maintain aspect ratio */
+  object-position: center center; /* Center the image */
+  border: 2px solid #ddd; /* Subtle border for separation */
+  border-radius: 6px; /* Rounded corners */
+  cursor: grab; /* Change cursor to indicate draggable item */
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+  transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
+}
+
+#thumb-container > img.thumb:hover {
+  transform: scale(1.03); /* Slightly enlarge on hover */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for depth */
+}
+
+/* bottom "upload Asset Button */
+#upload-section {
+  padding: 12px;
+  border-top: 1px solid #d8e3e7; /* Subtle border for separation */
+  background: #f9f8ff;
+}
+
+#upload-input {
+  display: none; /* Hide the default file input */
+}
+
+#upload-label {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+  color: #333;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #d8e3e7; /* Blue-green border */
+  transition: background 0.2s;
+}
+
+#upload-label:hover {
+  background: rgba(255, 255, 255, 0.8); /* Slightly more opaque on hover */
+}
+
+/* right Notebook-Style Canvas Area */
+#canvas-wrapper {
+  flex: 1;
+  position: relative;
+  background: #eefdfc; /* Light cream */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#canvas-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: #ffffff; /* White background for the canvas */
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  z-index: 1; /* Ensure it is below the thumbnails */
+}
+
+#canvas-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 28px,
+    #e7f1f3 28px,
+    #e7f1f3 29px
+  );
+  z-index: 2; /* Ensure it is below the canvas */
+  pointer-events: none; /* Allow interaction with the canvas */
+}
+
+#canvas {
+  position: absolute;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 3;
+  overflow: hidden;
+}
+
+/* top-left controls:"upload photo," "undo," "reset,""export" */
+#canvas-controls {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+}
+
+#canvas-controls label,
+#canvas-controls button {
+  background: rgba(255, 255, 255, 0.5); /* Semi-transparent background */
+  color: #333;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid #d8e3e7; /* Subtle border for separation */
+  transition: background 0.2s;
+  font-family: "Courier New", Courier, monospace; /* Monospace font for pixelated effect */
+}
+
+#canvas-controls label:hover,
+#canvas-controls button:hover {
+  background: rgba(255, 255, 255, 0.8); /* Slightly more opaque on hover */
+}
+#canvas-controls input {
+  display: none; /* Hide the default file input */
+}
+
+/* draggable instance styles */
+.draggable {
+  position: absolute;
+  touch-action: none; /* Prevent touch events from interfering with dragging */
+  transform-origin: center center; /* Ensure rotation happens around the center */
+  cursor: grab; /* Change cursor to indicate draggable item */
+  user-select: none; /* Prevent text selection while dragging */
+  z-index: 5; /* Ensure draggable items are above other elements */
+}
+
+.draggable img {
+  display: block;
+  max-width: 160px; /* Limit max width to prevent overflow */
+  max-height: 160px; /* Limit max height to prevent overflow */
+  border-radius: 4px; /* Rounded corners for images */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12); /* Subtle shadow for depth */
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+}
+
+.draggable.selected {
+  border: 2px dashed #6cd4db; /* Teal dashed border when selected */
+  box-sizing: border-box; /* Ensure border does not shift position */
+}
+
+/* Rotate handle (⟳): teal circle with white “⟳” */
+.rotate-handle {
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  width: 20px;
+  height: 20px;
+  background: #6cd4db; /* Teal */
+  color: #fff; /* White “⟳” */
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%; /* Circular shape */
+  cursor: grab; /* “Grab” cursor to indicate rotation */
+  z-index: 6;
+  user-select: none;
+}
+
+/* Scale handle (↔): teal circle with white “↔” */
+.scale-handle {
+  position: absolute;
+  bottom: -12px;
+  right: -12px;
+  width: 20px;
+  height: 20px;
+  background: #6cd4db; /* Teal */
+  color: #fff; /* White “↔” */
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%; /* Circular shape */
+  cursor: se-resize; /* “Stretch/Resize” cursor to indicate scaling */
+  z-index: 6;
+  user-select: none;
+}
+
+/* delete-btn */
+/* Delete button (✖): red circle with white “✖” */
+.delete-btn {
+  position: absolute;
+  top: -12px;
+  left: -12px;
+  width: 18px;
+  height: 18px;
+  background: #f08080; /* Light coral red */
+  color: #fff; /* White “✖” */
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+  border-radius: 50%; /* Circular shape */
+  cursor: pointer;
+  z-index: 6;
+  user-select: none;
+}
