@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" scroll="0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      PixelPlay Creative Workstation: Design Judgments & Reflections
+    </title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Top Anchor for "Back to Top" -->
+    <header id="top">
+      <h1>PixelPlay Creative Workstation: Design Judgments & Reflections</h1>
+    </header>
+
+    <div class="report-container">
+      <main>
+        <!-- 1. Purpose Judgment -->
+        <section id="purpose-judgment">
+          <h2>1. Purpose Judgment: My Expected Outcomes</h2>
+          <p>
+            In the initial prototype phase, I aimed to build a working native
+            HTML5 Canvas demo that supports:
+          </p>
+          <ol>
+            <li>
+              Uploading an image and having the Canvas automatically resize to
+              the image dimensions.
+            </li>
+            <li>
+              Controlling the pixelation level via a
+              <code>pixelSize</code> slider—larger values produce chunkier
+              pixels.
+            </li>
+            <li>
+              Clicking an “Export PNG” button to download the current canvas
+              view.
+            </li>
+          </ol>
+
+          <!-- Initial Prototype Demo -->
+          <section id="prototype-demo">
+            <h3>Initial Prototype Demo</h3>
+            <figure>
+              <img
+                src="img/p1.png"
+                alt="Prototype Demo: Upload, Pixelate, Export Controls"
+              />
+              <figcaption>
+                Prototype UI: upload button, pixel size slider, colors input,
+                filter dropdown, and export button.
+              </figcaption>
+            </figure>
+            <p>
+              In this stage, I confirmed that native Canvas resizing,
+              nearest-neighbor pixelation, and PNG export all work correctly.
+            </p>
+          </section>
+
+          <p>
+            Next, I envisioned “gamifying” the entire tool with draggable,
+            scalable, and flippable stickers and filters. Users could complete
+            pixelation, sticker placement, and filter selection in just a few
+            seconds. The goal was to create a “mini-game” feel rather than a
+            professional photo editor—allowing users to quickly craft fun,
+            pixelated posters and export them for sharing.
+          </p>
+        </section>
+
+        <!-- 2. Value Judgment -->
+        <section id="value-judgment">
+          <h2>2. Value Judgment: Project Focused Values</h2>
+          <ol>
+            <li>
+              <strong>Usability:</strong>
+              <ul>
+                <li>
+                  Although multiple features are integrated, every interaction
+                  is designed to be “obvious at first glance, done in three
+                  steps.”
+                </li>
+                <li>
+                  Discarded complex color wheels and layer systems, retaining
+                  only the “palette + nearest-neighbor color mapping” core
+                  workflow.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Lightweight & Performance:</strong>
+              <ul>
+                <li>
+                  Used native JavaScript + Canvas API to avoid large frameworks,
+                  ensuring fast load and real-time rendering.
+                </li>
+                <li>
+                  Early implementations called <code>getImageData</code> /
+                  <code>putImageData</code> too frequently, causing stutters;
+                  switching to a single-pass color-limiting algorithm greatly
+                  improved responsiveness.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Emotional Experience:</strong>
+              <ul>
+                <li>
+                  Interface colors, pixel fonts, and “glow buttons” were chosen
+                  to evoke a Y2K nostalgia vibe, creating a sense of “retro
+                  fun.”
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 3. Framework Judgment -->
+        <section id="framework-judgment">
+          <h2>3. Framework Judgment: Design Constraints</h2>
+          <ol>
+            <li>
+              <strong>Scope Shrinking:</strong>
+              <p>
+                Early plans included “user profiles + multi-feature photo
+                editor,” but this proved too ambitious. Final concept was
+                narrowed to:
+                <em>focus on photo pixelation + filters + stickers + export</em
+                >.
+              </p>
+              <!-- (Optional) Functional Iteration Mindmap -->
+              <!--
+            <figure>
+              <img src="screenshot_iteration1.png" alt="Functional Iteration Mindmap" />
+              <figcaption>Early Functional Iteration Mindmap</figcaption>
+            </figure>
+            --></li>
+            <li>
+              <strong>Technical Constraints:</strong>
+              <ul>
+                <li>
+                  Only native Canvas—no third-party rendering libraries. All
+                  rendering and drag-and-drop logic is handwritten to deeply
+                  understand the underlying APIs.
+                </li>
+                <li>
+                  No vector drawing—stickers only support “scale + flip
+                  (horizontal/vertical),” omitting rotation/twist to reduce
+                  complexity.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Performance Boundaries:</strong>
+              <p>A common issue was “pixelation too blurred”:</p>
+              <ul>
+                <li>
+                  <strong>Cause:</strong> <code>pixelSize</code> was too large,
+                  so the Canvas scaling ratio and viewport didn't match.
+                </li>
+                <li>
+                  <strong>Fix:</strong> Dynamically scale the Canvas to keep it
+                  visible, and set
+                  <code>ctx.imageSmoothingEnabled = false</code> to preserve
+                  crisp, blocky pixels.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 4. Appearance Judgment -->
+        <section id="appearance-judgment">
+          <h2>4. Appearance Judgment: Style & Aesthetics</h2>
+          <ol>
+            <li>
+              <strong>Palette:</strong>
+              <ul>
+                <li>
+                  Pink (#ff7096), mint green (#75efdb), and lavender (#ddffff)
+                  as primary colors to reinforce a dreamy Y2K look.
+                </li>
+                <li>
+                  Canvas background kept pure white so user creations stand out
+                  clearly.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Pixel Font:</strong>
+              <ul>
+                <li>
+                  Titles and primary buttons use “Press Start 2P” pixel-style
+                  font for retro flair.
+                </li>
+                <li>
+                  Body text and labels use a clean sans-serif font for
+                  readability.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Buttons & Panels:</strong>
+              <p>
+                “Glow buttons” feature multi-gradient backgrounds plus
+                inner/outer shadows; on Hover/Active they shift and display a
+                sliding sheen animation to provide tactile feedback.
+              </p>
+              <p>
+                Filter & Sticker panels use semi-transparent white backgrounds,
+                pink borders, and rounded corners to mimic a handheld game
+                console overlay.
+              </p>
+            </li>
+            <li>
+              <strong>Sticker Handles:</strong>
+              <p>
+                When a sticker is selected, 35x35 px neon-pink squares appear at
+                its corners to indicate it can be scaled. For example:
+              </p>
+              <figure>
+                <img
+                  src="img/p3.png"
+                  alt="Sticker Selection with Highlighted Handles"
+                />
+                <figcaption>
+                  Sticker Selection: Corner highlight handles for scaling
+                </figcaption>
+              </figure>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 5. Quality Judgment -->
+        <section id="quality-judgment">
+          <h2>5. Quality Judgment: Technical Implementation Choices</h2>
+          <ol>
+            <li>
+              <strong>Pixelation Algorithm Evolution:</strong>
+              <p>Original prototype:</p>
+              <ul>
+                <li>
+                  Used <code>drawImage</code> to scale the image down to
+                  <code>(width/size, height/size)</code> and then back
+                  up—resulted in overly blurred, dull colors.
+                </li>
+              </ul>
+              <p>Improved flow:</p>
+              <ol>
+                <li>Use Color Thief to extract a fixed palette.</li>
+                <li>
+                  For each pixel, find the nearest palette color and replace it.
+                </li>
+                <li>
+                  Disable <code>ctx.imageSmoothingEnabled</code> and redraw
+                  using nearest-neighbor scaling to preserve crisp pixel blocks.
+                </li>
+              </ol>
+              <pre>
+// In drawBase():
+const smallW = Math.floor(canvas.width / size);
+const smallH = Math.floor(canvas.height / size);
+ctx.drawImage(baseImage, 0, 0, smallW, smallH);
+let imageData = ctx.getImageData(0, 0, smallW, smallH);
+const data = imageData.data;
+for (let i = 0; i < data.length; i += 4) {
+  // Compute nearestColor from palette
+  data[i]   = nearestColor[0];
+  data[i+1] = nearestColor[1];
+  data[i+2] = nearestColor[2];
+}
+ctx.putImageData(imageData, 0, 0);
+ctx.imageSmoothingEnabled = false;
+ctx.drawImage(
+  canvas,
+  0, 0, smallW, smallH,
+  0, 0, canvas.width, canvas.height
+);
+            </pre
+              >
+              <p>
+                This approach balances retro pixel aesthetics with clear color
+                blocks, creating a sharper final visual.
+              </p>
+            </li>
+            <li>
+              <strong>Sticker State Management:</strong>
+              <p>
+                Used an array
+                <code
+                  >stickers = [{ img, x, y, width, height, flipH, flipV },
+                  …]</code
+                >
+                to store all sticker objects. In <code>drawSticker()</code>,
+                iterate through this array to render each sticker. To handle
+                flips, just toggle <code>flipH</code> /
+                <code>flipV</code> flags.
+              </p>
+            </li>
+            <li>
+              <strong>Render Loop vs On-Demand Rendering:</strong>
+              <ul>
+                <li>
+                  Initially, <code>render()</code> was only called on user
+                  interactions—which meant the sticker selection handles
+                  wouldn't persistently show.
+                </li>
+                <li>
+                  Switched to a continuous
+                  <code>requestAnimationFrame(animate)</code> loop, redrawing
+                  every frame so dragging, scaling, and highlighting always stay
+                  up to date.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Context Menu Implementation:</strong>
+              <ul>
+                <li>
+                  Listened for <code>contextmenu</code> on the Canvas, computed
+                  mouse coordinates relative to the canvas, and identified which
+                  sticker was clicked.
+                </li>
+                <li>
+                  Positioned a pre-defined
+                  <code>&lt;ul id="contextMenu"&gt;</code> at the mouse's
+                  <code>e.clientX</code> / <code>e.clientY</code> and toggled
+                  its <code>display</code> between <code>block</code> and
+                  <code>none</code>.
+                </li>
+                <li>
+                  Ensured HTML <code>id="contextMenu"</code> exactly matched the
+                  <code>getElementById("contextMenu")</code> call in JavaScript.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 6. Composition Judgment -->
+        <section id="composition-judgment">
+          <h2>6. Composition Judgment: Layout & Visual Hierarchy</h2>
+          <ol>
+            <li>
+              <strong>Page Sections:</strong>
+              <ul>
+                <li><strong>Top:</strong> Main title + music control</li>
+                <li>
+                  <strong>Toolbar:</strong> “Filters” / “Stickers” buttons just
+                  below the header
+                </li>
+                <li>
+                  <strong>Left Filter Panel</strong> and
+                  <strong>Right Sticker Panel</strong>, mutually exclusive
+                </li>
+                <li><strong>Main Section:</strong> Canvas + “Export” button</li>
+                <li>
+                  <strong>Bottom Padding:</strong> Reserved for future tips or
+                  additional features
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Visual Focus:</strong>
+              <ul>
+                <li>The Canvas is always centered and as large as possible.</li>
+                <li>
+                  Even when panels expand, they occupy minimal width to maximize
+                  visible canvas area.
+                </li>
+                <li>
+                  Sticker selection handles help users focus on interactive
+                  points when resizing.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Responsive Adjustments:</strong>
+              <ul>
+                <li>
+                  Canvas CSS uses
+                  <code>width: 80vw; max-width: 500px; height: auto;</code> so
+                  it adapts to mobile/tablet screens.
+                </li>
+                <li>
+                  Buttons, panels, and sticker thumbnails use Flexbox and
+                  relative units to prevent fixed-pixel overflow on small
+                  devices.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 7. Navigation Judgment -->
+        <section id="navigation-judgment">
+          <h2>7. Navigation Judgment: Prioritization During Development</h2>
+          <ol>
+            <li>
+              <strong>Build a Minimal Viable Prototype (MVP) First:</strong>
+              <p>
+                Version 1: Only “Upload → Pixelate → Export.” Ensure core logic
+                runs end-to-end.
+              </p>
+              <figure>
+                <img
+                  src="img/p3.png"
+                  alt="Minimal Prototype: Upload → Pixelate → Export"
+                />
+                <figcaption>Minimal MVP Interface</figcaption>
+              </figure>
+            </li>
+            <li>
+              <strong
+                >Step 2: Add Basic Interactions—Stickers & Filters:</strong
+              >
+              <ul>
+                <li>
+                  After pixelation was stable, prioritized “drag + scale + flip
+                  sticker” before integrating filter toggles.
+                </li>
+                <li>
+                  While debugging “click to add sticker, drag, right-click
+                  menu,” discovered coordinate offsets in some browsers; tested
+                  and patched to ensure cross-browser consistency.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong
+                >Step 3: Polish Experience—Highlights, Glows, Sound:</strong
+              >
+              <ul>
+                <li>
+                  Added sticker selection handles, glow button animations, and
+                  background music controls.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <strong>Continuous Testing & Feedback:</strong>
+              <ul>
+                <li>
+                  After each iteration, invited classmates to try the build,
+                  gathered feedback on “button click area misaligned” or
+                  “right-click menu not popping up,” and quickly fixed issues.
+                </li>
+                <li>
+                  For example, fixed “Download button not triggering on some
+                  browsers” by switching to an
+                  <code>&lt;a href="canvas.toDataURL()" download&gt;</code>
+                  approach.
+                </li>
+              </ul>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 8. Negative Decisions -->
+        <section id="negative-decisions">
+          <h2>8. Negative Decisions: Features Abandoned or Deferred</h2>
+          <ul>
+            <li>
+              <strong>Multi-Layer & Vector Drawing:</strong> Though I wanted
+              Photoshop-style layered editing, the development timeline and
+              complexity pushed this to future versions. Only single-layer
+              pixelation + stickers is supported now.
+            </li>
+            <li>
+              <strong>Real-Time Animations & GIF Export:</strong> Early attempts
+              with gif.js for frame-by-frame looping bogged down performance and
+              increased bundle size, so static PNG export remains. Animated
+              export is for a later release.
+            </li>
+            <li>
+              <strong>Social Sharing Integrations:</strong> Removed “one-click
+              share to WeChat/Weibo” due to OAuth/API complexity. Focus was on a
+              stable web experience first.
+            </li>
+            <li>
+              <strong>Custom Sticker Upload:</strong> Only a fixed, local
+              sticker folder is used—no front-end drag-and-drop upload to server
+              for now.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 9. Iteration Issues and Solutions -->
+        <section id="issues-iterations">
+          <h2>9. Iteration Issues and Solutions</h2>
+
+          <!-- 9.1 Minimal Prototype (MVP) -->
+          <section id="minimal-prototype">
+            <h3>9.1 Minimal Prototype (MVP)</h3>
+            <figure>
+              <img
+                src="img/p4.png"
+                alt="Minimal Prototype: Upload → Pixelate → Export"
+              />
+              <figcaption>
+                Early MVP confirming the core “Upload → Pixelate → Export” flow.
+              </figcaption>
+            </figure>
+            <p>
+              The very first version simply rendered the uploaded image, applied
+              nearest-neighbor pixelation on demand, and exported a static PNG.
+              Canvas sizing issues were refined by ensuring proper
+              <code>width/height</code> alignment with the image.
+            </p>
+          </section>
+
+          <!-- 9.2 Debugging Notes (Concise Text) -->
+          <section id="debugging-notes">
+            <h3>9.2 Other Debugging Notes</h3>
+            <ul>
+              <li>
+                During early development, a stray <code>const w</code> variable
+                was declared outside <code>drawBase()</code>, leading to “<code
+                  >w is not defined</code
+                >” errors. Moving the variable declaration inside the correct
+                function scope (within <code>img.onload</code>) fixed this.
+              </li>
+              <li>
+                Console occasionally showed “<code
+                  >Cannot read properties of null (reading
+                  'addEventListener')</code
+                >,” because some event listeners ran before the DOM elements
+                were created. Wrapping all <code>addEventListener</code> calls
+                in a <code>DOMContentLoaded</code> listener resolved this.
+              </li>
+              <li>
+                A “<code
+                  >Failed to construct 'ImageData': The provided value is not of
+                  type 'ImageDataSettings'</code
+                >” warning appeared when <code>getImageData</code> was given
+                non-integer dimensions. By adding <code>Math.floor()</code> to
+                the width/height calculations, all pixel sizes are now integers
+                and the warning disappeared.
+              </li>
+            </ul>
+          </section>
+        </section>
+
+        <!-- 10. Future Suggestions -->
+        <section id="future-suggestions">
+          <h2>10. Future Suggestions</h2>
+          <ul>
+            <li>
+              <strong>Add Sticker Library:</strong> Load a set of PNG sticker
+              assets onto the Canvas, supporting drag-and-drop placement and
+              scaling.
+            </li>
+            <li>
+              <strong>Drawing Tool:</strong> Bind mouse events and use Canvas
+              API to implement a freehand brush, with
+              <code>ctx.globalCompositeOperation</code> to toggle between eraser
+              and normal modes.
+            </li>
+            <li>
+              <strong>Animated Export:</strong> Integrate
+              <code>gif.js</code> for frame-by-frame looping GIF generation.
+            </li>
+            <li>
+              <strong>UI Upgrade:</strong> Rewrite using React + Konva.js for
+              easier componentization and extension.
+            </li>
+            <li>
+              <strong>Advanced Filters:</strong> Introduce custom shaders (e.g.,
+              WebGL) or use libraries like MoreFilter to implement richer filter
+              effects.
+            </li>
+            <li>
+              <strong>Social Sharing:</strong> Integrate front-end OAuth for
+              Weibo/WeChat to enable one-click sharing of user creations.
+            </li>
+          </ul>
+        </section>
+
+        <!-- 11. Conclusion -->
+        <section id="conclusion">
+          <h2>11. Conclusion: Project Evolution & Reflections</h2>
+          <p>
+            From the initial native Canvas prototype of “Upload → Pixelate →
+            Export” to the current integrated version with stickers, filters,
+            sound effects, and UI refinements, the core concept has always
+            revolved around
+            <em>“lightweight, playful, and easy to use.”</em> Each iteration
+            struck a balance between user experience, visual style, and
+            performance. Negative decisions helped focus on core features rather
+            than building everything at once. In the future, multi-layer
+            editing, animated GIF export, and social sharing could be added on
+            this solid foundation.
+          </p>
+          <p>
+            &gt; The above content combines key screenshots from each stage,
+            code errors encountered, and compatibility fixes to clearly
+            illustrate the evolution from prototype to the current release. Each
+            technical challenge and design trade-off aimed to help users create
+            fun pixel art posters as if “playing a mini-game” and export them
+            effortlessly.
+          </p>
+        </section>
+
+        <!-- 12. Bug Demonstration -->
+        <section id="bug-demonstration">
+          <h2>12. Bug Demonstration: GIF Sticker Loading Failure</h2>
+
+          <!-- 12.1 Before Fix -->
+          <h3>12.1 Before Fix (CORS Error)</h3>
+          <p>
+            Below is a screenshot showing how GIF stickers fail to load due to
+            CORS policy restrictions:
+          </p>
+          <figure>
+            <img src="img/p5.png" alt="GIF Sticker CORS Error Example" />
+            <figcaption>
+              Console error: “Access to image at
+              'https://tenor.com/…/gdkAz8TKiHk.gif' from origin
+              'http://127.0.0.1:3000' has been blocked by CORS policy.”<br />
+              Result: Sticker panel shows broken-image icons.
+            </figcaption>
+          </figure>
+
+          <!-- 12.2 After Fix -->
+          <h3>12.2 After Fix (Sticker Loads Normally)</h3>
+          <p>
+            After adding a simple proxy or hosting the GIFs on the same domain,
+            stickers load correctly and no CORS errors appear:
+          </p>
+          <figure>
+            <img
+              src="img/p6.png"
+              alt="GIF Sticker Loads Correctly, No Console Errors"
+            />
+            <figcaption>
+              Console: no CORS errors. Sticker panel now displays animated GIF
+              thumbnails as expected.
+            </figcaption>
+          </figure>
+          <p>
+            This demonstrates that once the cross-origin issue is resolved, GIF
+            stickers load as intended without any console errors.
+          </p>
+        </section>
+      </main>
+
+      <!-- Back to Top -->
+      <a href="#top" class="back-to-top" aria-label="Back to Top">↑</a>
+    </div>
+
+    <!-- Footer -->
+    <footer>PixelPlay © 2025</footer>
+  </body>
+</html>

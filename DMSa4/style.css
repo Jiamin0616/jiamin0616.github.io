@@ -1,0 +1,497 @@
+/* ==========================================
+   PixelPlay Reflection Report Stylesheet (CSS)
+   Based on the English HTML structure provided
+   Retro-Pixel Aesthetic with Y2K Pastel Vibe
+   ========================================== */
+
+/* ----------------------------
+   Global Page Setup
+   ---------------------------- */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DM+Sans:wght@300;400;500&display=swap");
+
+body {
+  margin: 0;
+  padding: 1rem;
+  background-color: #ddffff; /* Light mint-blue background */
+  font-family: "DM Sans", sans-serif; /* Body text uses DM Sans */
+  color: #333; /* Dark gray text */
+  line-height: 1.6;
+  background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 20px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05),
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 20px
+    );
+  background-blend-mode: overlay;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Custom Scrollbar */
+body::-webkit-scrollbar {
+  width: 8px;
+}
+body::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #ff7096;
+  border-radius: 4px;
+  border: 1px solid #ffa3c9;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #ff3366;
+}
+
+/* ----------------------------
+   Report Container
+   ---------------------------- */
+.report-container {
+  width: 90vw;
+  max-width: 900px;
+  background-color: #ffffffcc; /* Semi-transparent white overlay */
+  border: 2px solid #ffa3c9; /* Pink border */
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  margin-bottom: 2rem;
+}
+
+/* ----------------------------
+   Header Styles
+   ---------------------------- */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+header h1 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.6rem;
+  color: #ff3366; /* Vivid pink */
+  text-shadow: 1px 1px #ffe0f0;
+  margin: 0;
+  position: relative;
+}
+header h1::before,
+header h1::after {
+  content: "▢";
+  position: absolute;
+  font-size: 0.8rem;
+  color: #ffa3c9;
+}
+header h1::before {
+  top: 0;
+  left: -1.2rem;
+}
+header h1::after {
+  top: 0;
+  right: -1.2rem;
+}
+
+/* ----------------------------
+   Main Container
+   ---------------------------- */
+main {
+  width: 100%;
+}
+
+/* ----------------------------
+   Section Styles
+   ---------------------------- */
+section {
+  background-color: #ffffffcc; /* Semi-transparent white for card effect */
+  border: 2px solid #ffa3c9; /* Pink border */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle floating glow effect on sections */
+section::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.05),
+    transparent 70%
+  );
+  animation: sectionGlow 20s linear infinite;
+  pointer-events: none;
+}
+@keyframes sectionGlow {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translate(10%, 10%) scale(1.1);
+    opacity: 0.1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.3;
+  }
+}
+
+/* ----------------------------
+   Section Headings
+   ---------------------------- */
+section h2 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.25rem;
+  color: #ff7096; /* Soft pink */
+  margin-top: 0;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ffa3c9;
+  padding-bottom: 0.25rem;
+  position: relative;
+}
+section h2::before {
+  content: "";
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  width: 6px;
+  height: 6px;
+  background-color: #ff3366;
+  transform: rotate(45deg);
+}
+
+section h3 {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem;
+  color: #ff7096;
+  margin-top: 1.2rem;
+  margin-bottom: 0.6rem;
+  position: relative;
+}
+section h3::before {
+  content: "";
+  position: absolute;
+  top: 0.2rem;
+  left: -0.8rem;
+  width: 4px;
+  height: 4px;
+  background-color: #ffa3c9;
+}
+
+/* ----------------------------
+   Paragraphs, Lists, and Text
+   ---------------------------- */
+p,
+ol,
+ul {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+ol {
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+ol li {
+  position: relative;
+}
+ol li::marker {
+  color: #ff3366;
+  font-weight: bold;
+}
+
+ul {
+  padding-left: 1.5rem;
+  list-style-type: none;
+}
+ul li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.6rem;
+}
+ul li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #ff7096;
+}
+
+/* Fancy List Animation */
+ul.fancy-list li,
+ol.fancy-list li {
+  opacity: 0;
+  transform: translateX(-10px);
+  animation: fadeInRight 0.5s forwards;
+}
+ul.fancy-list li:nth-child(1) {
+  animation-delay: 0.1s;
+}
+ul.fancy-list li:nth-child(2) {
+  animation-delay: 0.2s;
+}
+ul.fancy-list li:nth-child(3) {
+  animation-delay: 0.3s;
+}
+ul.fancy-list li:nth-child(4) {
+  animation-delay: 0.4s;
+}
+ul.fancy-list li:nth-child(5) {
+  animation-delay: 0.5s;
+}
+/* If list has more than 5 items, increase delay as needed */
+@keyframes fadeInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+strong {
+  color: #ff3366; /* Highlight important terms */
+}
+
+/* ----------------------------
+   Code Blocks & Inline Code
+   ---------------------------- */
+pre {
+  font-family: "Press Start 2P", monospace;
+  background-color: #ffeef2; /* Light pink background */
+  color: #333;
+  padding: 0.75rem;
+  border: 2px dashed #ffa3c9;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 0.75rem;
+  margin-bottom: 1rem;
+  position: relative;
+}
+pre::before {
+  content: "<code>";
+  position: absolute;
+  top: -1.2rem;
+  left: 0.5rem;
+  font-size: 0.6rem;
+  color: #a20d5e;
+}
+pre::after {
+  content: "</code>";
+  position: absolute;
+  bottom: -1.2rem;
+  right: 0.5rem;
+  font-size: 0.6rem;
+  color: #a20d5e;
+}
+
+code {
+  font-family: "Press Start 2P", monospace;
+  background-color: #ffe0f0; /* Very light pink */
+  color: #a20d5e; /* Deep magenta */
+  padding: 0 0.25rem;
+  border-radius: 2px;
+  font-size: 0.8rem;
+}
+
+/* ----------------------------
+   Figures & Images
+   ---------------------------- */
+figure {
+  margin: 2rem 0;
+  text-align: center;
+}
+figure img {
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #ffa3c9;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+figure img:hover {
+  transform: scale(1.02);
+}
+figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* ----------------------------
+   Blockquotes
+   ---------------------------- */
+blockquote {
+  position: relative;
+  background-color: #fff0f6; /* Very light lavender-pink */
+  border-left: 4px solid #ff7096; /* Soft pink */
+  padding: 1rem 1.25rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #555;
+}
+blockquote::before {
+  content: "“";
+  position: absolute;
+  top: -0.5rem;
+  left: -0.5rem;
+  font-size: 2rem;
+  color: #ff7096;
+}
+
+/* ----------------------------
+   Links (Including within text)
+   ---------------------------- */
+a {
+  color: #ff3366; /* Vivid pink */
+  text-decoration: none;
+  position: relative;
+  transition: color 0.2s ease;
+}
+a::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #ff7096;
+  transition: width 0.3s ease;
+}
+a:hover {
+  color: #ff7096;
+}
+a:hover::after {
+  width: 100%;
+}
+
+/* ----------------------------
+   “Back to Top” Button
+   ---------------------------- */
+.back-to-top {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  width: 40px;
+  height: 40px;
+  background-color: #75efdb; /* Mint green */
+  color: #0d0d0d; /* Dark text */
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem;
+  text-align: center;
+  line-height: 40px;
+  border-radius: 50%;
+  border: 2px solid #ffa3c9;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  z-index: 1000;
+}
+.back-to-top:hover {
+  background-color: #ff7096;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ----------------------------
+   Footer Styles
+   ---------------------------- */
+footer {
+  background-color: #ffa3c9; /* Soft pink */
+  text-align: center;
+  color: #fff;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.7rem;
+  padding: 1rem 0;
+  margin-top: 2rem;
+  position: relative;
+}
+footer::before {
+  content: "PixelPlay © 2025";
+  position: absolute;
+  bottom: 0.5rem;
+  right: 1rem;
+  font-size: 0.6rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ----------------------------
+   Responsive Adjustments
+   ---------------------------- */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.3rem;
+  }
+  section {
+    padding: 1rem;
+  }
+  section h2 {
+    font-size: 1.1rem;
+  }
+  section h3 {
+    font-size: 0.95rem;
+  }
+  p,
+  ol,
+  ul {
+    font-size: 0.85rem;
+  }
+  pre {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+  }
+  code {
+    font-size: 0.75rem;
+  }
+  .back-to-top {
+    width: 36px;
+    height: 36px;
+    font-size: 0.9rem;
+    bottom: 1rem;
+    right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.1rem;
+  }
+  p,
+  ol,
+  ul {
+    font-size: 0.8rem;
+  }
+  section h2 {
+    font-size: 1rem;
+  }
+  section h3 {
+    font-size: 0.9rem;
+  }
+  pre {
+    font-size: 0.65rem;
+  }
+  code {
+    font-size: 0.7rem;
+  }
+  .back-to-top {
+    width: 32px;
+    height: 32px;
+    font-size: 0.8rem;
+    bottom: 0.8rem;
+    right: 0.8rem;
+  }
+}
